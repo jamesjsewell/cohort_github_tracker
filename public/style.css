@@ -1,0 +1,64 @@
+
+.clearfix {
+  clear: both;
+  font-size: 1px;
+}
+
+.student_card_content{
+  padding: .5rem;
+  overflow: hidden;
+  max-width: 100%;
+  background-color: rgba(0,0,0,.08);
+  border-radius: 5px;
+  text-align: center;
+
+}
+
+.avatar_wrapper{
+  margin: auto;
+  text-align: center;
+}
+
+.student_card{
+  margin: 1rem;
+
+}
+
+.student_avatar{
+
+  height: 80px;
+  width: auto;
+ 
+}
+
+.gh_activity_wrapper{
+
+  margin: 1rem;
+  background: white;
+  position: relative;
+  overflow: hidden;
+
+ 
+}
+
+.gh_activity_chart{
+  height: 100px;
+  float: right;
+
+}
+
+.gh_activity_wrapper p{
+  font-size: 1.2rem;
+  margin: .2rem;
+}
+
+.repos_wrapper{
+  max-height: 100px;
+  overflow: scroll;
+}
+.repos_wrapper p{
+  font-size: 1.2rem;
+  margin: .2rem;
+}
+
+

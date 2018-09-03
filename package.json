@@ -1,0 +1,24 @@
+{
+  "name": "cohort_github_tracker",
+  "version": "1.0.0",
+  "description": "keep an eye on student progress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production node ./api/app.js",
+    "dev": "NODE_ENV=development run-p dev_api dev_server ",
+    "dev_api": "nodemon ./api/app.js",
+    "dev_server": "nodemon ./dev_server.js"
+  },
+  "author": "james sewell",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "body-parser": "1.18.3",
+    "dotenv": "6.0.0",
+    "express": "4.16.3",
+    "mongoose": "5.2.12",
+    "nodemon": "^1.18.4",
+    "npm-run-all": "^4.1.3"
+  }
+}
