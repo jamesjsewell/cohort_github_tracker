@@ -3,11 +3,13 @@ var students = null
 function filterStudents (e, students) {
   e.preventDefault()
   var cohortId = e.target.id
+  var $cardsWrapper = $(`#student_cards`)
+  $cardsWrapper.html('<div></div>')
   if (students && students.length) {
     students.map((student) => {
       if (student.cohort === cohortId) {
         var studentCard = new StudentGithub({userName: student.gh}).html()
-        $(`#student_cards`).append(studentCard)
+        $cardsWrapper.append(studentCard)
       }
     })
   }
