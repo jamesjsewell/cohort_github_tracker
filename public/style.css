@@ -4,6 +4,48 @@
   font-size: 1px;
 }
 
+.hidden{
+  visibility: hidden;
+}
+
+body{
+  background-color: rgba(0,0,0,.01);
+}
+.app_wrapper{
+  width: 100vw;
+  height: auto;
+  text-align: center;
+
+}
+
+#ajax_wrapper{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.2);
+  z-index: 200;
+}
+
+#ajax_content{
+  text-align: center;
+  margin: auto;
+  padding: 1rem;
+  z-index: 300;
+  width: 40vw;
+  background-color: white;
+
+}
+
+#cohort_title{
+  text-align: center;
+  margin: auto;
+}
+
+.student_card{
+  margin: .8rem;
+  max-width: 300px;
+}
+
 .student_card_content{
   padding: .5rem;
   overflow: hidden;
@@ -19,10 +61,6 @@
   text-align: center;
 }
 
-.student_card{
-  margin: 1rem;
-
-}
 
 .student_avatar{
 

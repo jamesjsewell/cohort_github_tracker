@@ -131,7 +131,7 @@ const StudentGithub = class {
 
   html () {
     return (`
-      <div class="student_card one-third column">
+      <div class="student_card column">
 
         <div class="student_card_content">
 
