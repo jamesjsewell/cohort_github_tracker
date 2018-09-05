@@ -1,29 +1,16 @@
 
 $(document).ready(function () {
-  var $cohortNavWrapper = $('#cohort_nav')
-  var $studentsWrapper = $(`#student_cards`)
-
-  var devEnv = true
-  var devApi = 'http://localhost:3000'
-  var students = null
-  var studentsFiltered = null
+  $cohortNavWrapper = $('#cohort_nav')
+  $studentCardsWrapper = $('#student_cards')
+  $cohortName = $('#cohort_title')
+  $editCohortWrapper = $('#edit_cohort_wrapper')
+  $ajaxWrapper = $('#ajax_wrapper')
+  $ajaxContent = $('#ajax_content')
 
   locationChanged()
 
   function locationChanged () {
-    var browserLocation = location.hash.substr(1)
-
-    switch (browserLocation) {
-      case 'edit':
-
-        break
-
-      case 'view':
-
-        new ViewStudents(true, devApi, $cohortNavWrapper, $studentsWrapper)
-
-        break
-    }
+    new App()
   }
 
   window.onhashchange = locationChanged

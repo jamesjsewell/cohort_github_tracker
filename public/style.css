@@ -36,10 +36,21 @@ body{
 
 }
 
+#cohort_nav{
+
+}
+
+.create_cohort_link{
+
+  margin-left: 1rem;
+}
+
 #cohort_title{
   text-align: center;
   margin: auto;
 }
+
+
 
 .student_card{
   margin: .8rem;
@@ -47,6 +58,7 @@ body{
 }
 
 .student_card_content{
+  position: relative;
   padding: .5rem;
   overflow: hidden;
   max-width: 100%;
@@ -55,6 +67,18 @@ body{
   text-align: center;
 
 }
+
+.remove_student_button{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: .5rem;
+  margin: none;
+  z-index: 24;
+  background-color: white;
+  
+ }
+
 
 .avatar_wrapper{
   margin: auto;
@@ -94,9 +118,49 @@ body{
   max-height: 100px;
   overflow: scroll;
 }
+
 .repos_wrapper p{
   font-size: 1.2rem;
   margin: .2rem;
 }
 
+#edit_cohort{
+  width: auto;
+  margin: auto;
+}
 
+.edit_cohort_label{
+  text-align: center;
+  display: block;
+}
+
+.cohort_input{
+  text-align: center;
+  display: block;
+  margin: auto;
+}
+
+#usernames_select_wrapper{
+  
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+
+}
+
+#username_select{
+  height: auto;
+  max-width: 200px;
+}
+
+
+#edit_cohort_submit{
+  margin-top: .5rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: block;
+  
+}

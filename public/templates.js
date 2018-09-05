@@ -1,65 +1,4 @@
 
-const Form = class {
-  constructor (formInputs, submitAction) {
-    this.formInputs = formInputs
-    this.submitAction = submitAction
-  }
-
-  onSubmit (e) {
-    e.preventDefault()
-    this.submitAction()
-  }
-
-  html () {
-    const inputs = this.formInputs
-
-    return (`
-      <form submit="${this.onSubmit.bind(this)}">
-        ${inputs.map((input) => {
-        return `
-            <input name=${input.name} /> 
-          `
-      })}
-      </form>
-    
-    `)
-  }
-}
-
-// {
-//   "login": "jetsetta",
-//   "id": 38818892,
-//   "node_id": "MDQ6VXNlcjM4ODE4ODky",
-//   "avatar_url": "https://avatars0.githubusercontent.com/u/38818892?v=4",
-//   "gravatar_id": "",
-//   "url": "https://api.github.com/users/jetsetta",
-//   "html_url": "https://github.com/jetsetta",
-//   "followers_url": "https://api.github.com/users/jetsetta/followers",
-//   "following_url": "https://api.github.com/users/jetsetta/following{/other_user}",
-//   "gists_url": "https://api.github.com/users/jetsetta/gists{/gist_id}",
-//   "starred_url": "https://api.github.com/users/jetsetta/starred{/owner}{/repo}",
-//   "subscriptions_url": "https://api.github.com/users/jetsetta/subscriptions",
-//   "organizations_url": "https://api.github.com/users/jetsetta/orgs",
-//   "repos_url": "https://api.github.com/users/jetsetta/repos",
-//   "events_url": "https://api.github.com/users/jetsetta/events{/privacy}",
-//   "received_events_url": "https://api.github.com/users/jetsetta/received_events",
-//   "type": "User",
-//   "site_admin": false,
-//   "name": "Sean JS",
-//   "company": null,
-//   "blog": "",
-//   "location": null,
-//   "email": null,
-//   "hireable": null,
-//   "bio": null,
-//   "public_repos": 15,
-//   "public_gists": 0,
-//   "followers": 4,
-//   "following": 6,
-//   "created_at": "2018-04-28T20:14:42Z",
-//   "updated_at": "2018-08-16T16:27:51Z"
-// }
-
 const StudentGithub = class {
   constructor (student) {
     this.student = student
@@ -134,7 +73,7 @@ const StudentGithub = class {
       <div class="student_card column">
 
         <div class="student_card_content">
-
+          <button class="remove_student_button">x</button>
           <div id="${this.student.userName}_profile" />
           
          

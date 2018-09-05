@@ -41,13 +41,13 @@ app.all('*', function (req, res, next) {
 
 app.post('/students', (req, res) => {
   var { gh, cohort, secret } = req.body
-  if (gh && secret === process.env.API_SECRET) {
-    var NewStudent = new Student({ gh: gh, cohort: cohort })
+  if (gh && secret === process.env.COHORT_SECRET) {
+    var NewStudent = new Student({ gh: gh, cohort: cohort})
     NewStudent.save(function (err, result) {
       if (err) {
         return res.status(200).json({ error: 'error, could not save' })
       }
-      res.status(422).json({ created: result })
+      res.status(201).json({ created: result })
     })
   } else {
     res.end()
@@ -117,13 +117,14 @@ app.delete('/students/:id', (req, res) => {
 
 app.post('/cohorts', (req, res) => {
   var { name, secret } = req.body
-  if (name && secret === process.env.API_SECRET) {
+
+  if (name && secret === process.env.COHORT_SECRET) {
     var NewCohort = new Cohort({ name: name })
     NewCohort.save(function (err, result) {
       if (err) {
         return res.status(200).json({ error: 'error, could not save' })
       }
-      res.status(422).json({ created: result })
+      res.status(201).json({ created: result })
     })
   } else {
     res.end()
@@ -187,6 +188,15 @@ app.delete('/cohorts/:id', (req, res) => {
 
     return res.status(201).json({message: 'removed cohort'})
   })
+})
+
+app.post('/edit', (req, res) => {
+  var { secret } = req.body
+  if (secret === process.env.COHORT_SECRET) {
+    return res.status(201).json({ authenticated: true })
+  }
+
+  return res.status(201).json({ authenticated: false })
 })
 
 // starts the app listening for requests
