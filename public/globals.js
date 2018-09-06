@@ -4,6 +4,7 @@ var devApi = 'http://localhost:3000'
 var initializeApp = null
 var inputSecret = null
 
+var $secretFormWrapper = null
 var $cohortNavWrapper = null
 var $studentCardsWrapper = null
 var $cohortName = null

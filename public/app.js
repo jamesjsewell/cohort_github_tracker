@@ -42,6 +42,8 @@ function authenticateStaffMember (e) {
         }
 
         $('#create_cohort_link').attr('class', 'create_cohort_link')
+
+        $secretFormWrapper.html('<div></div>')
       } else {
         renderSecretForm('incorrect secret')
       }
@@ -58,7 +60,8 @@ function authenticateStaffMember (e) {
 }
 
 function renderSecretForm (message) {
-  $editCohortWrapper.html(`<form onsubmit="authenticateStaffMember(event)" id="cohort_secret_input">
+  $editCohortWrapper.html(`<div></div>`)
+  $secretFormWrapper.html(`<form onsubmit="authenticateStaffMember(event)" id="cohort_secret_input">
     <strong>staff member?</strong>
     <input type="password" name="secret" placeholder="secret" />
     <button type="submit">submit</button>
@@ -83,9 +86,11 @@ function onCohortSelect (e, cohort) {
         filteredStudents.push(student)
       }
     })
+    renderCohortNav()
     renderGithubCards()
 
     if (inputSecret) {
+      renderCohortNav()
       renderEditCohortForm()
     }
   }
@@ -174,14 +179,17 @@ function editCohortName (e) {
   }
 
   function onSuccess (response) {
+    function updateCohortArray () {
+      cohortArray = response
+      selectedCohort = cohortArray.find((cohort) => cohort._id === selectedCohort._id ? cohort : null)
+      renderCohortNav()
+    }
     if (response) {
       if (response && response.length && !response.error) {
-        cohortArray = response
-        renderCohortNav()
+        updateCohortArray()
       } else {
         if (response && !response.length && !response.error) {
-          cohortArray = response
-          renderCohortNav()
+          updateCohortArray()
         }
       }
     } else {
@@ -277,6 +285,10 @@ function getCohortArray () {
 }
 
 function renderCohortNav () {
+  if (selectedCohort) {
+    $cohortName.html(`<h5>${selectedCohort.name}</h5>`)
+  }
+
   $cohortNavWrapper.html(`${
     cohortArray.map((cohort) => {
       return `<a href="" id="${cohort._id}" class="cohort_link" onclick="onCohortSelect(event)">${cohort.name}</a>`

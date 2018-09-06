@@ -1,5 +1,6 @@
 
 $(document).ready(function () {
+  $secretFormWrapper = $('#secret_form_wrapper')
   $cohortNavWrapper = $('#cohort_nav')
   $studentCardsWrapper = $('#student_cards')
   $cohortName = $('#cohort_title')
@@ -8,6 +9,7 @@ $(document).ready(function () {
   $ajaxContent = $('#ajax_content')
   $modalWrapper = $('#modal_wrapper')
   $modalContent = $('#modal_content')
+
 
   locationChanged()
 
