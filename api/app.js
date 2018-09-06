@@ -178,21 +178,30 @@ app.post('/cohorts/filter', (req, res) => {
 
 app.put('/cohorts/:id', (req, res) => {
   var id = req.params.id
+  const { secret, name } = req.body
 
-  Cohort.findByIdAndUpdate(
-    { _id: id },
-    req.body,
-    { new: true },
-    function (err, results) {
-      if (err) {
-        return res.status(200).json({ error: 'error, could not update cohort' })
-      } else if (!results) {
-        return res.status(200).json({ error: 'error, could not find cohort' })
-      } else {
-        return res.status(201).json(results)
+  if (secret === process.env.COHORT_SECRET) {
+    Cohort.findByIdAndUpdate(
+      { _id: id },
+      {name: name},
+      { new: true },
+      function (err, results) {
+        if (err) {
+          return res.status(200).json({ error: 'error, could not update cohort' })
+        } else if (!results) {
+          return res.status(200).json({ error: 'error, could not find cohort' })
+        } else {
+          Cohort.find((err, results) => {
+            if (err) {
+              return res.status(200).json({ error: 'error, could not get cohorts' })
+            }
+
+            return res.status(201).json(results)
+          })
+        }
       }
-    }
-  )
+    )
+  }
 })
 
 app.delete('/cohorts/:id', (req, res) => {

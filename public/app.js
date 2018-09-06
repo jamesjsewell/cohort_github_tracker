@@ -36,34 +36,28 @@ function authenticateStaffMember (e) {
         inputSecret = secret
         if (selectedCohort) {
           $('.remove_student_button').attr('class', 'remove_student_button')
-          $editCohortWrapper.html(`<form onsubmit="addUsername(event)" id="edit_cohort">
-          change cohort name
-          <input class="cohort_input" name="cohort_name" placeholder="cohort name" value="${selectedCohort.name}"/>
-          add usernames
-          <input class="cohort_input" name="username" placeholder="github username"/>
-          <button id="edit_cohort_submit" type="submit">submit</button>
-        </form>`)
+          renderEditCohortForm()
         } else {
           $editCohortWrapper.html(`<div></div>`)
         }
 
         $('#create_cohort_link').attr('class', 'create_cohort_link')
       } else {
-        resetEditCohortForm('incorrect secret')
+        renderSecretForm('incorrect secret')
       }
     } else {
-      resetEditCohortForm()
+      renderSecretForm()
     }
     ajaxStatus(false)
   }
 
   function onError (response) {
-    resetEditCohortForm('server error')
+    renderSecretForm('server error')
     ajaxStatus(false)
   }
 }
 
-function resetEditCohortForm (message) {
+function renderSecretForm (message) {
   $editCohortWrapper.html(`<form onsubmit="authenticateStaffMember(event)" id="cohort_secret_input">
     <strong>staff member?</strong>
     <input type="password" name="secret" placeholder="secret" />
@@ -92,15 +86,28 @@ function onCohortSelect (e, cohort) {
     renderGithubCards()
 
     if (inputSecret) {
-      $editCohortWrapper.html(`<form onsubmit="addUsername(event)" id="edit_cohort">
-          change cohort name
-          <input class="cohort_input" name="cohort_name" placeholder="cohort name" value="${selectedCohort.name}"/>
-          add usernames
-          <input class="cohort_input" name="username" placeholder="github username"/>
-          <button id="edit_cohort_submit" type="submit">submit</button>
-        </form>`)
+      renderEditCohortForm()
     }
   }
+}
+
+function renderEditCohortForm () {
+  $editCohortWrapper.html(`<div class="edit_cohort_forms">
+          <form onsubmit="editCohortName(event)" id="edit_cohort_form">
+            <div class="form_contents">
+              <p>change cohort name</p>
+              <input class="cohort_name_input" name="cohort_name" placeholder="cohort name" value="${selectedCohort.name}"/>
+              <button id="edit_name_submit" type="submit">submit</button>
+            </div>
+          </form>
+  
+          <form onsubmit="addUsername(event)" id="add_username_form">
+            <div class="form_contents">
+              <p>add usernames</p>
+              <input class="username_input" name="username" placeholder="github username"/>
+              <button id="add_username_submit" type="submit">submit</button>
+            </div>
+          </form></div>`)
 }
 
 function setCreateCohortForm (e) {
@@ -140,6 +147,48 @@ function onCreateCohort (e) {
 
     ajaxStatus(false)
     getCohortArray()
+  }
+
+  function onError (response) {
+    ajaxStatus(false)
+  }
+}
+
+function editCohortName (e) {
+  // selectedCohort.name
+  e.preventDefault()
+
+  if (selectedCohort.name && e.target.cohort_name.value && selectedCohort.name.toLowerCase() !== e.target.cohort_name.value.toLowerCase()) {
+    var ajaxMessage = `<div><p>editing cohort name</p></div>`
+    ajaxStatus(true, ajaxMessage)
+
+    var cohortName = e.target.cohort_name.value
+    var url = devEnv ? `${devApi}/cohorts/${selectedCohort._id}` : `/cohorts/${selectedCohort._id}`
+    $.ajax({
+      url: url,
+      method: 'PUT',
+      success: onSuccess,
+      error: onError,
+      data: { name: cohortName, secret: inputSecret }
+    })
+  }
+
+  function onSuccess (response) {
+    if (response) {
+      if (response && response.length && !response.error) {
+        cohortArray = response
+        renderCohortNav()
+      } else {
+        if (response && !response.length && !response.error) {
+          cohortArray = response
+          renderCohortNav()
+        }
+      }
+    } else {
+
+    }
+
+    ajaxStatus(false)
   }
 
   function onError (response) {
@@ -216,14 +265,7 @@ function getCohortArray () {
   function onSuccess (response) {
     if (response && response.length && response[0]._id) {
       cohortArray = response
-
-      $cohortNavWrapper.html(`${
-        cohortArray.map((cohort) => {
-          return `<a href="" id="${cohort._id}" class="cohort_link" onclick="onCohortSelect(event)">${cohort.name}</a>`
-        })}`)
-
-      $cohortNavWrapper.append(`<a id="create_cohort_link" onclick="setCreateCohortForm(event)" class="create_cohort_link hidden" onclick="" href="">create</a>`)
-
+      renderCohortNav()
       ajaxStatus(false)
     }
   }
@@ -232,6 +274,15 @@ function getCohortArray () {
     var ajaxMessage = `<div><p>could not get cohort data from server</p></div>`
     ajaxStatus(true, ajaxMessage)
   }
+}
+
+function renderCohortNav () {
+  $cohortNavWrapper.html(`${
+    cohortArray.map((cohort) => {
+      return `<a href="" id="${cohort._id}" class="cohort_link" onclick="onCohortSelect(event)">${cohort.name}</a>`
+    })}`)
+
+  $cohortNavWrapper.append(`<a id="create_cohort_link" onclick="setCreateCohortForm(event)" class="create_cohort_link hidden" onclick="" href="">create</a>`)
 }
 
 function getStudentArray () {
@@ -415,7 +466,7 @@ const StudentGithub = class {
 }
 
 var initializeApp = function () {
-  resetEditCohortForm()
+  renderSecretForm()
   getCohortArray()
   getStudentArray()
 }

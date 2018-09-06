@@ -148,43 +148,55 @@ body{
   margin: .2rem;
 }
 
-#edit_cohort{
-  width: auto;
+
+.edit_cohort_forms{
   margin: auto;
+  max-width: 400px;
+  display: flex;
 }
+.form_contents{
+  display: block;
+}
+
+.form_contents p{
+  margin: .2rem;
+  padding: none;
+}
+
+#add_username_form{
+  width: auto;
+  margin: .2rem;
+}
+
+.username_input{
+  margin: .2rem;
+}
+
+#add_username_submit{
+  margin: .2rem;
+}
+
+#edit_cohort_form{
+  width: auto;
+  margin: .2rem;
+
+}
+
+.cohort_name_input{
+  margin: .2rem;
+
+}
+
+#edit_name_submit{
+  margin: .2rem;
+}
+
 
 .edit_cohort_label{
   text-align: center;
   display: block;
 }
 
-.cohort_input{
-  text-align: center;
-  display: block;
-  margin: auto;
-}
-
-#usernames_select_wrapper{
-  
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
-
-}
-
-#username_select{
-  height: auto;
-  max-width: 200px;
-}
 
 
-#edit_cohort_submit{
-  margin-top: .5rem;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  display: block;
-  
-}
+
