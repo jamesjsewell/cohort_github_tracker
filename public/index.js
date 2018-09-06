@@ -6,11 +6,13 @@ $(document).ready(function () {
   $editCohortWrapper = $('#edit_cohort_wrapper')
   $ajaxWrapper = $('#ajax_wrapper')
   $ajaxContent = $('#ajax_content')
+  $modalWrapper = $('#modal_wrapper')
+  $modalContent = $('#modal_content')
 
   locationChanged()
 
   function locationChanged () {
-    new App()
+    initializeApp()
   }
 
   window.onhashchange = locationChanged

@@ -47,7 +47,13 @@ app.post('/students', (req, res) => {
       if (err) {
         return res.status(200).json({ error: 'error, could not save' })
       }
-      res.status(201).json({ created: result })
+      Student.find({cohort: cohort}, function (err, usernames) {
+        if (err) {
+          return res.status(200).json({ error: 'error, could not find usernames' })
+        }
+
+        return res.status(201).json(usernames)
+      })
     })
   } else {
     res.end()
@@ -103,14 +109,23 @@ app.put('/students/:id', (req, res) => {
   )
 })
 
-app.delete('/students/:id', (req, res) => {
-  Student.remove({ _id: req.params.id }, function (err) {
-    if (err) {
-      return res.status(200).json({ error: 'error, could not remove student profile' })
-    }
+app.post('/students/remove', (req, res) => {
+  const { secret, id, cohort } = req.body
+  if (secret === process.env.COHORT_SECRET) {
+    Student.remove({ _id: id }, function (err) {
+      if (err) {
+        return res.status(200).json({ error: 'error, could not remove student profile' })
+      }
 
-    return res.status(201).json({message: 'removed student profile'})
-  })
+      Student.find({cohort: cohort}, function (err, usernames) {
+        if (err) {
+          return res.status(200).json({ error: 'error, could not find usernames' })
+        }
+
+        return res.status(201).json(usernames)
+      })
+    })
+  }
 })
 
 // ---------- cohorts
