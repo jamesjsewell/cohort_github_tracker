@@ -9,6 +9,7 @@ function ajaxStatus (visible, content) {
   if (visible && content) {
     $ajaxContent.html(content)
     $ajaxWrapper.attr('class', '')
+    $ajaxContent.attr('class', '')
   } else {
     $ajaxWrapper.attr('class', 'hidden')
     $ajaxContent.attr('class', 'hidden')
@@ -36,12 +37,15 @@ function authenticateStaffMember (e) {
         inputSecret = secret
         if (selectedCohort) {
           $('.remove_student_button').attr('class', 'remove_student_button')
-          renderEditCohortForm()
+
+          if(inputSecret){
+            renderEditCohortForm()
+          }
+          
         } else {
           $editCohortWrapper.html(`<div></div>`)
         }
-
-        $('#create_cohort_link').attr('class', 'create_cohort_link')
+        $createCohortLink.attr('class', 'create_cohort_link')
 
         $secretFormWrapper.html('<div></div>')
       } else {
@@ -74,23 +78,18 @@ function onCohortSelect (e, cohort) {
     e.preventDefault()
   }
 
+  students = []
+
   if (!cohort) {
     var cohortId = e.target.id
     selectedCohort = cohortArray.find((cohort) => cohort._id === cohortId ? cohort : null)
   }
 
   if (selectedCohort && selectedCohort._id) {
-    filteredStudents = []
-    students.map((student) => {
-      if (student.cohort === selectedCohort._id) {
-        filteredStudents.push(student)
-      }
-    })
+    getStudentArray()
     renderCohortNav()
-    renderGithubCards()
-
     if (inputSecret) {
-      renderCohortNav()
+      
       renderEditCohortForm()
     }
   }
@@ -115,11 +114,21 @@ function renderEditCohortForm () {
           </form></div>`)
 }
 
-function setCreateCohortForm (e) {
-  e.preventDefault()
+function removeCreateCohortForm(e){
+    e.preventDefault()
+    $editCohortWrapper.html('<div></div>')
+    
+}
+
+function renderCreateCohortForm (e) {
+
+  if(e){
+    e.preventDefault()
+  }
+ 
   $cohortName.html('')
   $studentCardsWrapper.html('<div></div>')
-  $editCohortWrapper.html(`<form onsubmit="onCreateCohort(event)" id="add_create"><input placeholder="cohort name" name="cohort_name" /> <button type="submit">submit</button></form>`)
+  $editCohortWrapper.html(`<form class="" onsubmit="onCreateCohort(event)" id="add_create"><input placeholder="cohort name" name="cohort_name" /> <button type="submit">submit</button></form> <a href="" onclick="removeCreateCohortForm(event)" >cancel</a>`)
 }
 
 function onCreateCohort (e) {
@@ -224,13 +233,9 @@ function addUsername (e) {
   }
 
   function onSuccess (response) {
-    if (response) {
-      if (response && response.length) {
-        filteredStudents = response
-        renderGithubCards()
-      } else {
-
-      }
+    if (response && response[0] && response[0]._id) {
+      students = response
+      renderGithubCards()
     } else {
 
     }
@@ -244,15 +249,15 @@ function addUsername (e) {
 }
 
 function renderGithubCards () {
-  if (filteredStudents && filteredStudents.length) {
+  if (students && students.length) {
     $cohortName.html(selectedCohort.name)
     $studentCardsWrapper.html('<div></div>')
-    filteredStudents.map((student) => {
+    students.map((student) => {
       var studentCard = new StudentGithub({userName: student.gh, id: student._id, cohort: student.cohort}).html()
       $studentCardsWrapper.append(studentCard)
     })
   } else {
-    if (filteredStudents && !filteredStudents.length) {
+    if (students && !students.length) {
       $studentCardsWrapper.html('<div></div>')
     }
   }
@@ -279,8 +284,8 @@ function getCohortArray () {
   }
 
   function onError (response) {
-    var ajaxMessage = `<div><p>could not get cohort data from server</p></div>`
-    ajaxStatus(true, ajaxMessage)
+   
+    ajaxStatus(false)
   }
 }
 
@@ -293,29 +298,31 @@ function renderCohortNav () {
     cohortArray.map((cohort) => {
       return `<a href="" id="${cohort._id}" class="cohort_link" onclick="onCohortSelect(event)">${cohort.name}</a>`
     })}`)
-
-  $cohortNavWrapper.append(`<a id="create_cohort_link" onclick="setCreateCohortForm(event)" class="create_cohort_link hidden" onclick="" href="">create</a>`)
 }
 
 function getStudentArray () {
-  var url = devEnv ? `${devApi}/students` : '/students'
+  var ajaxMessage = `<div><p>getting profiles</p></div>`
+  ajaxStatus(true, ajaxMessage)
+  var url = devEnv ? `${devApi}/students/filter` : '/students/filter'
   $.ajax({
     url: url,
-    method: 'GET',
+    method: 'POST',
+    data: { cohort: selectedCohort._id },
     success: onSuccess,
     error: onError
   })
 
   function onSuccess (response) {
-    if (response && response.length && response[0]._id) {
+    if (response && !response.error) {
       students = response
+      renderGithubCards()
     }
     ajaxStatus(false)
   }
 
   function onError (response) {
-    var ajaxMessage = `<div><p>could not get student data from server</p></div>`
-    ajaxStatus(true, ajaxMessage)
+  
+    ajaxStatus(false)
   }
 }
 
@@ -360,13 +367,13 @@ function deleteUsername (e, id, cohort) {
   function onSuccess (response) {
     if (response) {
       if (response && response.length && !response.error) {
-        filteredStudents = response
+        students = response
         $modalWrapper.attr('class', 'hidden')
         $modalContent.attr('class', 'hidden')
         renderGithubCards()
       } else {
         if (response && !response.error && !response.length) {
-          filteredStudents = response
+          students = response
           $modalWrapper.attr('class', 'hidden')
           $modalContent.attr('class', 'hidden')
           renderGithubCards()
@@ -478,7 +485,11 @@ const StudentGithub = class {
 }
 
 var initializeApp = function () {
+  $('#create_cohort_link').click((event)=>{
+  
+    event.preventDefault()
+    renderCreateCohortForm()
+  })
   renderSecretForm()
   getCohortArray()
-  getStudentArray()
 }

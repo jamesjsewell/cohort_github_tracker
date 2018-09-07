@@ -7,6 +7,7 @@ var inputSecret = null
 var $secretFormWrapper = null
 var $cohortNavWrapper = null
 var $studentCardsWrapper = null
+var $createCohortLink = null
 var $cohortName = null
 var $editCohortWrapper = null
 var $ajaxWrapper = null
