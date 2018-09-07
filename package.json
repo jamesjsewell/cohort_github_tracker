@@ -1,7 +1,7 @@
 {
   "name": "cohort_github_tracker",
   "version": "1.0.0",
-  "description": "keep an eye on student progress",
+  "description": "keep an eye on profile progress",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

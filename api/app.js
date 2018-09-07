@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const Cohort = require('./Cohort_schema.js')
-const Student = require('./Student_schema.js')
+const GithubProfile = require('./GithubProfile_schema.js')
 const mongoose = require('mongoose')
 
 if (process.env.NODE_ENV == 'development') {
@@ -39,20 +39,20 @@ app.all('*', function (req, res, next) {
   next()
 })
 
-app.post('/students', (req, res) => {
+app.post('/profiles', (req, res) => {
   var { gh, cohort, secret } = req.body
   if (gh && secret === process.env.COHORT_SECRET) {
-    var NewStudent = new Student({ gh: gh, cohort: cohort})
-    NewStudent.save(function (err, result) {
+    var NewGithubProfile = new GithubProfile({ gh: gh, cohort: cohort})
+    NewGithubProfile.save(function (err, result) {
       if (err) {
         return res.status(200).json({ error: 'error, could not save' })
       }
-      Student.find({cohort: cohort}, function (err, usernames) {
+      GithubProfile.find({cohort: cohort}, function (err, profiles) {
         if (err) {
-          return res.status(200).json({ error: 'error, could not find usernames' })
+          return res.status(200).json({ error: 'error, could not find profiles' })
         }
 
-        return res.status(201).json(usernames)
+        return res.status(201).json(profiles)
       })
     })
   } else {
@@ -60,8 +60,8 @@ app.post('/students', (req, res) => {
   }
 })
 
-app.get('/students', (req, res) => {
-  Student.find((err, results) => {
+app.get('/profiles', (req, res) => {
+  GithubProfile.find((err, results) => {
     if (err) {
       return res.status(200).json({ error: 'error, could not get' })
     }
@@ -70,8 +70,8 @@ app.get('/students', (req, res) => {
   })
 })
 
-app.get('/students/:id', (req, res) => {
-  Student.find(req.params.id ? { _id: req.params.id } : {}, (err, results) => {
+app.get('/profiles/:id', (req, res) => {
+  GithubProfile.find(req.params.id ? { _id: req.params.id } : {}, (err, results) => {
     if (err) {
       return res.status(200).json({ error: 'error, could not get' })
     }
@@ -80,8 +80,8 @@ app.get('/students/:id', (req, res) => {
   })
 })
 
-app.post('/students/filter', (req, res) => {
-  Student.find(req.body, function (err, results) {
+app.post('/profiles/filter', (req, res) => {
+  GithubProfile.find(req.body, function (err, results) {
     if (err) {
       return res.status(200).json({ error: 'error, could not find cohort' })
     }
@@ -90,10 +90,10 @@ app.post('/students/filter', (req, res) => {
   })
 })
 
-app.put('/students/:id', (req, res) => {
+app.put('/profiles/:id', (req, res) => {
   var id = req.params.id
 
-  Student.findByIdAndUpdate(
+  GithubProfile.findByIdAndUpdate(
     { _id: id },
     req.body,
     { new: true },
@@ -101,7 +101,7 @@ app.put('/students/:id', (req, res) => {
       if (err) {
         return res.status(200).json({ error: 'error, could not update' })
       } else if (!results) {
-        return res.status(200).json({ error: 'error, could not find student' })
+        return res.status(200).json({ error: 'error, could not find profile' })
       } else {
         return res.status(201).json(results)
       }
@@ -109,20 +109,20 @@ app.put('/students/:id', (req, res) => {
   )
 })
 
-app.post('/students/remove', (req, res) => {
+app.post('/profiles/remove', (req, res) => {
   const { secret, id, cohort } = req.body
   if (secret === process.env.COHORT_SECRET) {
-    Student.remove({ _id: id }, function (err) {
+    GithubProfile.remove({ _id: id }, function (err) {
       if (err) {
-        return res.status(200).json({ error: 'error, could not remove student profile' })
+        return res.status(200).json({ error: 'error, could not remove profile profile' })
       }
 
-      Student.find({cohort: cohort}, function (err, usernames) {
+      GithubProfile.find({cohort: cohort}, function (err, profiles) {
         if (err) {
-          return res.status(200).json({ error: 'error, could not find usernames' })
+          return res.status(200).json({ error: 'error, could not find profiles' })
         }
 
-        return res.status(201).json(usernames)
+        return res.status(201).json(profiles)
       })
     })
   }

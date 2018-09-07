@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // instance of mongoose Schema class
-var Student = new Schema({
+var GithubProfile = new Schema({
   gh: { type: String },
   cohort: { type: String }
-}, { collection: 'gh_usernames', timestamps: true })
+}, { collection: 'gh_profiles', timestamps: true })
 
-module.exports = mongoose.model('Student', Student)
+module.exports = mongoose.model('GithubProfile', GithubProfile)

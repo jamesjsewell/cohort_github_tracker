@@ -76,12 +76,12 @@ body{
 
 
 
-.student_card{
+.profile_card{
   margin: .8rem;
   max-width: 300px;
 }
 
-.student_card_content{
+.profile_card_content{
   position: relative;
   padding: .5rem;
   overflow: hidden;
@@ -92,7 +92,7 @@ body{
 
 }
 
-.remove_student_button{
+.remove_profile_button{
   position: absolute;
   right: 10px;
   top: 10px;
@@ -110,7 +110,7 @@ body{
 }
 
 
-.student_avatar{
+.profile_avatar{
 
   height: 80px;
   width: auto;
@@ -163,16 +163,16 @@ body{
   padding: none;
 }
 
-#add_username_form{
+#add_profile_form{
   width: auto;
   margin: .2rem;
 }
 
-.username_input{
+.profile_input{
   margin: .2rem;
 }
 
-#add_username_submit{
+#add_profile_submit{
   margin: .2rem;
 }
 
