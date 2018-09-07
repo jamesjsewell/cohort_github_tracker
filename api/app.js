@@ -230,9 +230,3 @@ app.listen(PORT, function () {
     '\n\n===== listening for requests on port ' + PORT + ' =====\n\n'
   )
 })
-
-app.get('*', (req, res) => {
-  if (!req.url.includes('cohorts') && !req.url.includes('profiles') && !req.url.includes('edit')) {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'))
-  }
-})
