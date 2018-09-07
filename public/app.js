@@ -1,6 +1,5 @@
 
 var students = null
-var filteredStudents = null
 var cohortArray = null
 var selectedCohort = null
 var inputSecret = null
