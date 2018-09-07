@@ -1,5 +1,6 @@
 var devEnv = false
 var devApi = 'http://localhost:3000'
+var prodApi = 'https://gh-profiles.herokuapp.com'
 
 var initializeApp = null
 var inputSecret = null

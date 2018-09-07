@@ -6,7 +6,7 @@ function authenticateStaffMember (e) {
   var secret = e.target.secret.value
   var ajaxMessage = `<div><p>checking if secret is correct</p></div>`
 
-  var url = devEnv ? `${devApi}/edit` : '/edit'
+  var url = devEnv ? `${devApi}/edit` : `${prodApi}/edit`
   $.ajax({
     url: url,
     method: 'POST',

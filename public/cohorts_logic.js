@@ -5,7 +5,7 @@ function getCohortData () {
   var ajaxMessage = `<div><p>contacting the server, this may take a moment since it is hosted on heroku, free plan</p></div>`
   ajaxStatus(true, ajaxMessage)
 
-  var url = devEnv ? `${devApi}/cohorts` : '/cohorts'
+  var url = devEnv ? `${devApi}/cohorts` : `${prodApi}/cohorts`
   $.ajax({
     url: url,
     method: 'GET',
@@ -17,9 +17,7 @@ function getCohortData () {
     if (response && response.length && response[0]._id) {
       cohorts = response
       renderCohortNav()
-      
-    }
-    else{
+    } else {
       cohorts = []
     }
 
@@ -27,7 +25,6 @@ function getCohortData () {
   }
 
   function onError (response) {
-   
     ajaxStatus(false)
   }
 }
@@ -47,9 +44,8 @@ function onCohortSelect (e, cohort) {
   if (selectedCohort && selectedCohort._id) {
     getProfileData()
     renderCohortNav()
-   
+
     if (inputSecret) {
-      
       renderEditCohortForm()
     }
   }
@@ -94,7 +90,7 @@ function editCohortName (e) {
     ajaxStatus(true, ajaxMessage)
 
     var cohortName = e.target.cohort_name.value
-    var url = devEnv ? `${devApi}/cohorts/${selectedCohort._id}` : `/cohorts/${selectedCohort._id}`
+    var url = devEnv ? `${devApi}/cohorts/${selectedCohort._id}` : `${prodApi}/cohorts/${selectedCohort._id}`
     $.ajax({
       url: url,
       method: 'PUT',
@@ -130,22 +126,19 @@ function editCohortName (e) {
   }
 }
 
-
 function renderCreateCohortForm (e) {
-
-  if(e){
+  if (e) {
     e.preventDefault()
   }
- 
+
   $cohortName.html('')
   $profileCardsWrapper.html('<div></div>')
   $editCohortWrapper.html(`<form class="" onsubmit="onCreateCohort(event)" id="add_create"><input placeholder="cohort name" name="cohort_name" /> <button type="submit">submit</button></form> <a href="" onclick="removeCreateCohortForm(event)" >cancel</a>`)
 }
 
-function removeCreateCohortForm(e){
-    e.preventDefault()
-    $editCohortWrapper.html('<div></div>')
-    
+function removeCreateCohortForm (e) {
+  e.preventDefault()
+  $editCohortWrapper.html('<div></div>')
 }
 
 function onCreateCohort (e) {
@@ -154,7 +147,7 @@ function onCreateCohort (e) {
   ajaxStatus(true, ajaxMessage)
 
   var cohortName = e.target.cohort_name.value
-  var url = devEnv ? `${devApi}/cohorts` : '/cohorts'
+  var url = devEnv ? `${devApi}/cohorts` : `${prodApi}/cohorts`
   $.ajax({
     url: url,
     method: 'POST',
@@ -177,15 +170,12 @@ function onCreateCohort (e) {
     }
 
     ajaxStatus(false)
-    
+
     getCohortData()
   }
 
   function onError (response) {
-    
     ajaxStatus(false)
     removeCreateCohortForm
   }
 }
-
-

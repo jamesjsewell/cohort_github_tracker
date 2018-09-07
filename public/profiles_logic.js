@@ -3,7 +3,7 @@ var profiles = null
 function getProfileData () {
   var ajaxMessage = `<div><p>getting profiles</p></div>`
   ajaxStatus(true, ajaxMessage)
-  var url = devEnv ? `${devApi}/profiles/filter` : '/profiles/filter'
+  var url = devEnv ? `${devApi}/profiles/filter` : `${prodApi}/profiles/filter`
   $.ajax({
     url: url,
     method: 'POST',
@@ -34,7 +34,7 @@ function addProfile (e) {
     e.preventDefault()
     var ajaxMessage = `<div><p>adding profile</p></div>`
     ajaxStatus(true, ajaxMessage)
-    var url = devEnv ? `${devApi}/profiles` : '/profiles'
+    var url = devEnv ? `${devApi}/profiles` : `${prodApi}/profiles`
     $.ajax({
       url: url,
       method: 'POST',
@@ -88,7 +88,7 @@ function deleteProfile (e, id, cohort) {
   if (id) {
     var ajaxMessage = `<div><p>removing profile</p></div>`
     ajaxStatus(true, ajaxMessage)
-    var url = devEnv ? `${devApi}/profiles/remove` : '/profiles/remove'
+    var url = devEnv ? `${devApi}/profiles/remove` : `${prodApi}/profiles/remove`
     $.ajax({
       url: url,
       method: 'POST',
