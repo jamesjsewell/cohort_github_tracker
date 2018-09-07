@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const Cohort = require('./Cohort_schema.js')
 const GithubProfile = require('./GithubProfile_schema.js')
 const mongoose = require('mongoose')
+const path = require('path')
 
 if (process.env.NODE_ENV == 'development') {
   require('dotenv').config()
@@ -228,4 +229,10 @@ app.listen(PORT, function () {
   console.log(
     '\n\n===== listening for requests on port ' + PORT + ' =====\n\n'
   )
+})
+
+app.get('*', (req, res) => {
+  if (!req.url.includes('cohorts') && !req.url.includes('profiles') && !req.url.includes('edit')) {
+    res.sendFile(path.join(__dirname, '../public', 'index.html'))
+  }
 })

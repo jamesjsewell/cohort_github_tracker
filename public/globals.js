@@ -1,4 +1,4 @@
-var devEnv = true
+var devEnv = false
 var devApi = 'http://localhost:3000'
 
 var initializeApp = null
@@ -16,4 +16,3 @@ var $cohortName = null
 var $cohortNavWrapper = null
 var $createCohortLink = null
 var $editCohortWrapper = null
-
