@@ -22,10 +22,9 @@ function authenticateStaffMember (e) {
         if (selectedCohort) {
           $('.remove_profile_button').attr('class', 'remove_profile_button')
 
-          if(inputSecret){
+          if (inputSecret) {
             renderEditCohortForm()
           }
-          
         } else {
           $editCohortWrapper.html(`<div></div>`)
         }
@@ -69,13 +68,11 @@ function ajaxStatus (visible, content) {
 }
 
 var initializeApp = function () {
-
   getCohortData()
   renderSecretForm()
 
-  $createCohortLink.click((event)=>{
+  $createCohortLink.click((event) => {
     event.preventDefault()
     renderCreateCohortForm()
   })
-  
 }

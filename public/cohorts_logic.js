@@ -17,8 +17,13 @@ function getCohortData () {
     if (response && response.length && response[0]._id) {
       cohorts = response
       renderCohortNav()
-      ajaxStatus(false)
+      
     }
+    else{
+      cohorts = []
+    }
+
+    ajaxStatus(false)
   }
 
   function onError (response) {
@@ -42,6 +47,7 @@ function onCohortSelect (e, cohort) {
   if (selectedCohort && selectedCohort._id) {
     getProfileData()
     renderCohortNav()
+   
     if (inputSecret) {
       
       renderEditCohortForm()
@@ -171,11 +177,14 @@ function onCreateCohort (e) {
     }
 
     ajaxStatus(false)
+    
     getCohortData()
   }
 
   function onError (response) {
+    
     ajaxStatus(false)
+    removeCreateCohortForm
   }
 }
 

@@ -21,7 +21,6 @@ function getProfileData () {
   }
 
   function onError (response) {
-  
     ajaxStatus(false)
   }
 }
@@ -136,7 +135,11 @@ function renderProfileCards () {
     })
   } else {
     if (profiles && !profiles.length) {
-      $profileCardsWrapper.html('<div></div>')
+      noProfilesToShow()
     }
   }
+}
+
+function noProfilesToShow () {
+  $profileCardsWrapper.html('<div><p>no profiles added to this cohort yet</p></div>')
 }
